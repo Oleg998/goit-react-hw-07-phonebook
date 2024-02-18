@@ -3,8 +3,10 @@ import { nanoid } from 'nanoid';
 import css from './PhoneForm.module.css';
 import { useSelector, useDispatch } from 'react-redux';
 import { addContact } from '../../../redux/contacts/contacts-slice';
-import { getFilterByContact } from '../../../redux/contacts/contacts-selectors';
+import { getAllContact } from '../../../redux/contacts/contacts-selectors';
 import { useState } from 'react';
+
+
 
 const INITIAL_STATE = {
   name: '',
@@ -15,11 +17,13 @@ const PhoneForm = () => {
   const [state, setState] = useState({ ...INITIAL_STATE });
 
   const dispatch = useDispatch();
-  const contacts = useSelector(getFilterByContact);
+  const { items } = useSelector(getAllContact);
+
+
 
   const isDulecate = ({ name }) => {
     const normalazeName = name.toLowerCase();
-    const dublicate = contacts.find(item => {
+    const dublicate = items.find(item => {
       const normalizedCurrentName = item.name.toLowerCase();
       return normalazeName === normalizedCurrentName;
     });
