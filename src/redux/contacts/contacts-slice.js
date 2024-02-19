@@ -1,41 +1,63 @@
 import { createSlice } from '@reduxjs/toolkit';
-import { nanoid } from 'nanoid';
 
-const initialState = { items:[], isLoading: false, error: null };
+
+const initialState = { items: [], isLoading: false, error: null };
 
 const contactSlice = createSlice({
   name: 'contact',
   initialState,
   reducers: {
-    fetchingInProgress:(state)=> {
+    fetchingInProgress: state => {
       state.isLoading = true;
     },
     fetchingSuccess: (state, { payload }) => {
-      state.isLoading = true;
+      state.isLoading = false;
       state.items = payload;
-  },
-    fetchingError:(state, { payload }) =>{
+    },
+    fetchingError: (state, { payload }) => {
       state.isLoading = false;
       state.error = payload;
     },
-    addContact: {
-      reducer: (state, { payload }) => [...state, payload],
-      prepare: data => {
-        return {
-          payload: {
-            id: nanoid(),
-            ...data,
-          },
-        };
-      },
+
+    addContactsInProgress: state => {
+      state.isLoading = true;
+      state.error = null;
     },
-    deleteContact: (state, { payload }) =>
-      state.filter(item => item.id !== payload),
+    addContactsSuccess: (state, { payload }) => {
+      state.isLoading = false;
+      state.items.push(payload);
+    },
+    addContactsError: (state, { payload }) => {
+      state.isLoading = false;
+      state.error = payload;
+    },
+
+    deleteContactInProgress: state => {
+      state.isLoading = true;
+      state.error = null;
+    },
+    deleteContactSuccess: (state, { payload }) => {
+      state.isLoading = false;
+      state.items = state.items.filter(({id}) => id !== payload);
+    },
+    deleteContactError: (state, { payload }) => {
+      state.isLoading = false;
+      state.error = payload;
+    },
+
+    
   },
 });
 export const {
-  addContact,
-  deleteContact,
+  deleteContactInProgress,
+  deleteContactSuccess,
+  deleteContactError,
+
+  addContactsInProgress,
+  addContactsSuccess,
+  addContactsError,
+
+  
   fetchingInProgress,
   fetchingSuccess,
   fetchingError,

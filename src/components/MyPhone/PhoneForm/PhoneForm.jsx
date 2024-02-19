@@ -2,10 +2,10 @@ import { useMemo } from 'react';
 import { nanoid } from 'nanoid';
 import css from './PhoneForm.module.css';
 import { useSelector, useDispatch } from 'react-redux';
-import { addContact } from '../../../redux/contacts/contacts-slice';
+
 import { getAllContact } from '../../../redux/contacts/contacts-selectors';
 import { useState } from 'react';
-
+import {addContacts} from "../../../redux/contacts/contacts-operation"
 
 
 const INITIAL_STATE = {
@@ -31,8 +31,8 @@ const PhoneForm = () => {
   };
 
   const addForPhenebook = data => {
-    const action = addContact(data);
-    dispatch(action);
+    console.log(data);
+    dispatch(addContacts(data));
   };
 
   const nameId = useMemo(() => nanoid(), []);
@@ -48,8 +48,9 @@ const PhoneForm = () => {
     if (isDulecate(state)) {
       return alert(`Name ${state.name} already in Phonebook`);
     }
-    setState({ ...INITIAL_STATE });
     addForPhenebook({ ...state });
+    setState({ ...INITIAL_STATE });
+    
   };
   const { name, number } = state;
   return (

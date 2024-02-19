@@ -1,24 +1,23 @@
 import { useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
-import { deleteContact } from '../../../redux/contacts/contacts-slice';
 import { setFilter } from '../../../redux/filter/filter-slice';
 import { getAllContact } from '../../../redux/contacts/contacts-selectors';
-import {fetchContacts} from "../../../redux/contacts/contactacts-operation"
+import {fetchContacts , deleteContacts} from "../../../redux/contacts/contacts-operation"
 import Loader from '../Loader/Loader';
 import css from './PhoneList.module.css';
 
 const PhoneList = () => {
-  
-  useEffect(() => {
-    fetchContacts()
-  }, []);
-
-  const { items, isLoading } = useSelector(getAllContact);
-
   const dispatch = useDispatch();
+  useEffect(() => {
+    dispatch(fetchContacts())
+  }, [dispatch]);
+
+  const { items, isLoading, error } = useSelector(getAllContact);
+
+ 
 
   const deleteName = id => {
-    dispatch(deleteContact(id));
+    dispatch(deleteContacts(id));
   };
   const handelSearce = ({ target }) => dispatch(setFilter(target.value));
   const elements = items.map(({ id, name, number }) => (
@@ -36,7 +35,9 @@ const PhoneList = () => {
 
   return (
     <>
+      
       {isLoading && <Loader></Loader>}
+      
       <div className={css.wrapper}>
         <h2>Contacts</h2>
         <p> Find Cotacts by Name</p>
@@ -46,6 +47,8 @@ const PhoneList = () => {
           placeholder="Searce Name"
         ></input>
         <ul className={css.phone_list}>{elements}</ul>
+        {!items.length && <h2>No phone in Phonebook</h2>}
+        {error && <p>......{error}......</p>}
       </div>
     </>
   );
