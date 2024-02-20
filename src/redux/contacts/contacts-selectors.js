@@ -3,7 +3,7 @@ export const selectAllContact = store => store.contacts;
 
 export const selectFilterByContact = store => {
   const { filter, contacts } = store;
-  const {items, isLoading, error }=contacts
+  const {items }=contacts
   if (!filter) {
     return contacts;
   }
