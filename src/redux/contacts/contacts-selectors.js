@@ -1,15 +1,19 @@
-export const getAllContact = store => store.contacts;
+export const selectAllContact = store => store.contacts;
 
 
-export const getFilterByContact = store => {
+export const selectFilterByContact = store => {
   const { filter, contacts } = store;
+  const {items, isLoading, error }=contacts
   if (!filter) {
     return contacts;
   }
   const normalazeNameFilter = filter.toLowerCase();
-  const filterName = contacts.filter(({ name }) => {
+  const filterName = items.filter(({ name }) => {
     const filterCurentName = name.toLowerCase();
     return filterCurentName.includes(normalazeNameFilter);
   });
-  return filterName;
-};
+  return {
+    items:filterName,
+    isLoading:false,
+    error:null
+}}

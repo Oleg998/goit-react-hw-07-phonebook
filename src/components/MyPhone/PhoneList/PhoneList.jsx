@@ -1,20 +1,21 @@
 import { useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { setFilter } from '../../../redux/filter/filter-slice';
-import { getAllContact } from '../../../redux/contacts/contacts-selectors';
-import {fetchContacts , deleteContacts} from "../../../redux/contacts/contacts-operation"
+import { selectFilterByContact } from '../../../redux/contacts/contacts-selectors';
+import {
+  fetchContacts,
+  deleteContacts,
+} from '../../../redux/contacts/contacts-operation';
 import Loader from '../Loader/Loader';
 import css from './PhoneList.module.css';
 
 const PhoneList = () => {
   const dispatch = useDispatch();
   useEffect(() => {
-    dispatch(fetchContacts())
+    dispatch(fetchContacts());
   }, [dispatch]);
 
-  const { items, isLoading, error } = useSelector(getAllContact);
-
- 
+  const { items, isLoading, error } = useSelector(selectFilterByContact);
 
   const deleteName = id => {
     dispatch(deleteContacts(id));
@@ -35,9 +36,8 @@ const PhoneList = () => {
 
   return (
     <>
-      
       {isLoading && <Loader></Loader>}
-      
+
       <div className={css.wrapper}>
         <h2>Contacts</h2>
         <p> Find Cotacts by Name</p>

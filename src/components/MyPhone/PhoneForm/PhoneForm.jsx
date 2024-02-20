@@ -3,10 +3,9 @@ import { nanoid } from 'nanoid';
 import css from './PhoneForm.module.css';
 import { useSelector, useDispatch } from 'react-redux';
 
-import { getAllContact } from '../../../redux/contacts/contacts-selectors';
+import { selectAllContact } from '../../../redux/contacts/contacts-selectors';
 import { useState } from 'react';
-import {addContacts} from "../../../redux/contacts/contacts-operation"
-
+import { addContacts } from '../../../redux/contacts/contacts-operation';
 
 const INITIAL_STATE = {
   name: '',
@@ -17,9 +16,7 @@ const PhoneForm = () => {
   const [state, setState] = useState({ ...INITIAL_STATE });
 
   const dispatch = useDispatch();
-  const { items } = useSelector(getAllContact);
-
-
+  const { items } = useSelector(selectAllContact);
 
   const isDulecate = ({ name }) => {
     const normalazeName = name.toLowerCase();
@@ -50,7 +47,6 @@ const PhoneForm = () => {
     }
     addForPhenebook({ ...state });
     setState({ ...INITIAL_STATE });
-    
   };
   const { name, number } = state;
   return (

@@ -1,55 +1,55 @@
-import { requestContacts , requestAddContacts , requestDeleteContacts } from '../../api/contants-api';
+import { createAsyncThunk } from '@reduxjs/toolkit';
 import {
-  deleteContactInProgress,
-  deleteContactSuccess,
-  deleteContactError,
-  addContactsInProgress,
-  addContactsSuccess,
-  addContactsError,
-  fetchingInProgress,
-  fetchingSuccess,
-  fetchingError,
-} from './contacts-slice';
+  requestContacts,
+  requestAddContacts,
+  requestDeleteContacts,
+} from '../../api/contants-api';
 
-export const fetchContacts = () => {    
-  const func = async dispatch => {    
-    try {        
-        dispatch(fetchingInProgress());
-        const data = await requestContacts(); 
-        dispatch(fetchingSuccess(data));        
-    } catch (error) {
-        dispatch(fetchingError(error.message));        
-    }  
-  }
-  return func
-};
-
-export const addContacts = (body)=>{
-  const func = async (dispatch) => {
-    try{
-       dispatch( addContactsInProgress())
-       const data = await requestAddContacts(body)
-       dispatch(addContactsSuccess(data))
-    }
-    catch (error){
-        dispatch(addContactsError(error.message))
-    }
-  }
-  return func
-}
-
-
-export const deleteContacts = (id)=> {
-  const func =async(dispatch) => {
+export const fetchContacts = createAsyncThunk(
+  'contacts/fetchAll',
+  async (_, thunkAPI) => {
     try {
-      dispatch(deleteContactInProgress())
-      await requestDeleteContacts(id)
-      dispatch(deleteContactSuccess(id))
-
-    }
-    catch(error){
-       dispatch(deleteContactError())
+      const data = await requestContacts();
+      return data;
+    } catch (error) {
+      return thunkAPI.rejectWithValue(error.message);
     }
   }
-  return func 
-}
+);
+
+export const addContacts = createAsyncThunk(
+  'contacts/addContacts',
+  async (body, thunkAPI) => {
+    try {
+      const data = await requestAddContacts(body);
+      return data;
+    } catch (error) {
+      return thunkAPI.rejectWithValue(error.message);
+    }
+  },
+  // {
+  //   condition :({name} , {getState})=>{
+  //     const {contacts}=getState()
+  //     const normalazeName = name.toLowerCase();
+  //     const dublicate = contacts.items.find(item => {
+  //       const normalizedCurrentName = item.name.toLowerCase();
+  //       return normalazeName === normalizedCurrentName;
+  //     });
+  //     if(dublicate)
+  //    { alert(`Name ${name} already in Phonebook`)}
+  //    return false
+  //   }
+  // }
+);
+
+export const deleteContacts = createAsyncThunk(
+  'contacts/delContats',
+  async (id, thunkAPI) => {
+    try {
+      await requestDeleteContacts(id);
+      return id;
+    } catch (error) {
+      return thunkAPI.rejectWithValue(error.message);
+    }
+  }
+);
