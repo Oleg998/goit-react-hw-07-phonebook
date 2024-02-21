@@ -27,19 +27,19 @@ export const addContacts = createAsyncThunk(
       return thunkAPI.rejectWithValue(error.message);
     }
   },
-  // {
-  //   condition :({name} , {getState})=>{
-  //     const {contacts}=getState()
-  //     const normalazeName = name.toLowerCase();
-  //     const dublicate = contacts.items.find(item => {
-  //       const normalizedCurrentName = item.name.toLowerCase();
-  //       return normalazeName === normalizedCurrentName;
-  //     });
-  //     if(dublicate)
-  //    { alert(`Name ${name} already in Phonebook`)}
-  //    return false
-  //   }
-  // }
+  {
+    condition :({name} , {getState})=>{
+      const {contacts}=getState()
+      const normalazeName = name.toLowerCase();
+      const dublicate = contacts.items.find(item => {
+        const normalizedCurrentName = item.name.toLowerCase();
+        return normalazeName === normalizedCurrentName;
+      });
+      if(dublicate)
+     { alert(`Name ${name} already in Phonebook`)}
+     return false
+    }
+  }
 );
 
 export const deleteContacts = createAsyncThunk(

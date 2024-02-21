@@ -1,9 +1,7 @@
 import { useMemo } from 'react';
 import { nanoid } from 'nanoid';
 import css from './PhoneForm.module.css';
-import { useSelector, useDispatch } from 'react-redux';
-
-import { selectAllContact } from '../../../redux/contacts/contacts-selectors';
+import { useDispatch } from 'react-redux';
 import { useState } from 'react';
 import { addContacts } from '../../../redux/contacts/contacts-operation';
 
@@ -16,19 +14,8 @@ const PhoneForm = () => {
   const [state, setState] = useState({ ...INITIAL_STATE });
 
   const dispatch = useDispatch();
-  const { items } = useSelector(selectAllContact);
-
-  const isDulecate = ({ name }) => {
-    const normalazeName = name.toLowerCase();
-    const dublicate = items.find(item => {
-      const normalizedCurrentName = item.name.toLowerCase();
-      return normalazeName === normalizedCurrentName;
-    });
-    return Boolean(dublicate);
-  };
 
   const addForPhenebook = data => {
-  
     dispatch(addContacts(data));
   };
 
@@ -42,9 +29,6 @@ const PhoneForm = () => {
 
   const handelSubmit = e => {
     e.preventDefault();
-    if (isDulecate(state)) {
-      return alert(`Name ${state.name} already in Phonebook`);
-    }
     addForPhenebook({ ...state });
     setState({ ...INITIAL_STATE });
   };
