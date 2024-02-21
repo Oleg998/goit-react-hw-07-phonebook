@@ -23,7 +23,8 @@ export const addContacts = createAsyncThunk(
     try {
       const data = await requestAddContacts(body);
       return data;
-    } catch (error) {
+    } 
+    catch (error) {
       return thunkAPI.rejectWithValue(error.message);
     }
   },
@@ -34,10 +35,10 @@ export const addContacts = createAsyncThunk(
       const dublicate = contacts.items.find(item => {
         const normalizedCurrentName = item.name.toLowerCase();
         return normalazeName === normalizedCurrentName;
-      });
+      })
       if(dublicate)
-     { alert(`Name ${name} already in Phonebook`)}
-     return false
+     { alert(`Name ${name} already in Phonebook`)
+     return false;}
     }
   }
 );
