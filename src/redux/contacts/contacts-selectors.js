@@ -1,19 +1,16 @@
-export const selectAllContact = store => store.contacts;
+import { createSelector } from "@reduxjs/toolkit";
+import { selectFilter } from "../filter/filter-selectors";
+
+export const selectAllContact = store => store.contacts.items;
 
 
-export const selectFilterByContact = store => {
-  const { filter, contacts } = store;
-  const {items }=contacts
+export const selectContact = state =>state.contacts
+
+export const selectFilterContact = createSelector([selectAllContact , selectFilter],(contacts , filter) => {
   if (!filter) {
     return contacts;
   }
-  const normalazeNameFilter = filter.toLowerCase();
-  const filterName = items.filter(({ name }) => {
-    const filterCurentName = name.toLowerCase();
-    return filterCurentName.includes(normalazeNameFilter);
-  });
-  return {
-    items:filterName,
-    isLoading:false,
-    error:null
-}}
+  const normalizedFilter = filter.toLocaleLowerCase();
+  return contacts.filter(({ name }) =>
+  name.toLocaleLowerCase().includes(normalizedFilter))
+})

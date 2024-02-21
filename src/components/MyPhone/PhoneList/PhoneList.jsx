@@ -1,7 +1,7 @@
 import { useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { setFilter } from '../../../redux/filter/filter-slice';
-import { selectFilterByContact } from '../../../redux/contacts/contacts-selectors';
+import { selectContact ,selectFilterContact} from '../../../redux/contacts/contacts-selectors';
 import {
   fetchContacts,
   deleteContacts,
@@ -15,7 +15,9 @@ const PhoneList = () => {
     dispatch(fetchContacts());
   }, [dispatch]);
 
-  const { items, isLoading, error } = useSelector(selectFilterByContact);
+  const {  isLoading, error } = useSelector(selectContact);
+  const items =useSelector(selectFilterContact)
+
 
   const deleteName = id => {
     dispatch(deleteContacts(id));

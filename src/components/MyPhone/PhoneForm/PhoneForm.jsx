@@ -28,7 +28,7 @@ const PhoneForm = () => {
   };
 
   const addForPhenebook = data => {
-    console.log(data);
+  
     dispatch(addContacts(data));
   };
 
